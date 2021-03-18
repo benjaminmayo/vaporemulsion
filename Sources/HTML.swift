@@ -1,29 +1,29 @@
-struct HTML {
-    static func comment(_ comment: String) -> HTML {
+public struct HTML {
+    public static func comment(_ comment: String) -> HTML {
         return HTML(kind: .comment(comment))
     }
     
-    static func text(_ text: String) -> HTML {
+    public static func text(_ text: String) -> HTML {
         return HTML(kind: .text(text))
     }
     
-    static func tag(_ name: String, class: String, children: [HTML] = []) -> HTML {
+    public static func tag(_ name: String, class: String, children: [HTML] = []) -> HTML {
         return HTML(kind: .tag(name: name, attributes: ["class" : `class`], children: children))
     }
     
-    static func tag(_ name: String, class: String, text: String) -> HTML {
+    public static func tag(_ name: String, class: String, text: String) -> HTML {
 		return HTML(kind: .simpleTagWithSingleAttribute(name: name, attributeName: "class", attributeValue: `class`, textContent: text))
     }
     
-    static func tag(_ name: String, attributes: Attributes = [:], children: [HTML] = []) -> HTML {
+    public static func tag(_ name: String, attributes: Attributes = [:], children: [HTML] = []) -> HTML {
         return HTML(kind: .tag(name: name, attributes: attributes, children: children))
     }
 	
-	static func tag(_ name: String, text: String) -> HTML {
+    public static func tag(_ name: String, text: String) -> HTML {
 		return HTML(kind: .simpleTag(name: name, text: text))
 	}
     
-    static func tag(_ name: String, attributes: Attributes, text: String) -> HTML {
+    public static func tag(_ name: String, attributes: Attributes, text: String) -> HTML {
 		if attributes.count == 1, let attributeName = attributes.firstAttribute.key.nonEmpty, let attributeValue = attributes.firstAttribute.value.nonEmpty {
 			return HTML(kind: .simpleTagWithSingleAttribute(name: name, attributeName: attributeName, attributeValue: attributeValue, textContent: text))
 		} else {
@@ -47,7 +47,7 @@ struct HTML {
 }
 
 extension HTML : TextOutputStreamable {
-    func write<Target>(to target: inout Target) where Target : TextOutputStream {
+    public func write<Target>(to target: inout Target) where Target : TextOutputStream {
         switch self.kind {
             case .comment(let comment):
                 target.write("<!-- \(comment) --!>")
@@ -94,30 +94,30 @@ extension HTML : TextOutputStreamable {
 }
 
 extension HTML {
-    struct Attributes : Equatable, ExpressibleByDictionaryLiteral, Sequence {
+    public struct Attributes : Equatable, ExpressibleByDictionaryLiteral, Sequence {
         private var properties: [(String, String)]
         
-        init(dictionaryLiteral elements: (String, String)...) {
+        public init(dictionaryLiteral elements: (String, String)...) {
             self.properties = elements
         }
 		
-		var count: Int {
+        var count: Int {
 			return self.properties.count
 		}
         
-		var firstAttribute: (key: String, value: String) {
+        var firstAttribute: (key: String, value: String) {
 			return self.properties[0]
 		}
 		
-        mutating func append(_ key: String, _ value: String = "") {
+        public mutating func append(_ key: String, _ value: String = "") {
             self.properties.append((key, value))
         }
         
-        func makeIterator() -> IndexingIterator<[(String, String)]> {
+        public func makeIterator() -> IndexingIterator<[(String, String)]> {
             return self.properties.makeIterator()
         }
         
-        static func ==(lhs: HTML.Attributes, rhs: HTML.Attributes) -> Bool {
+        public static func ==(lhs: HTML.Attributes, rhs: HTML.Attributes) -> Bool {
             return lhs.elementsEqual(rhs, by: { (a, b) in
                 a.0 == b.0 && a.1 == b.1
             })
