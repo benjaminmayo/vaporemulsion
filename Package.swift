@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "VaporEmulsion",
+    name: "vapor-emulsion",
     platforms: [.macOS(.v11)],
     dependencies: [],
     targets: [
