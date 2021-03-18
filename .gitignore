@@ -1,0 +1,6 @@
+.DS_Store
+/.build
+/Packages
+/*.xcodeproj
+xcuserdata/
+Sources/DailyDictionarySite/Utilities/db-backup-11.sql
