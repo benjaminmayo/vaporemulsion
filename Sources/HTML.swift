@@ -1,5 +1,3 @@
-import Vapor
-
 struct HTML {
     static func comment(_ comment: String) -> HTML {
         return HTML(kind: .comment(comment))
