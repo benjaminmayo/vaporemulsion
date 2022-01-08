@@ -1,5 +1,5 @@
 import XCTest
-@testable import VaporEmulsion
+import VaporEmulsion
 
 class CollectionUtilitiesTests : XCTestCase {
     func testEmpty() {
