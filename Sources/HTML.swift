@@ -1,4 +1,4 @@
-public struct HTML {
+public struct HTML : Sendable {
     public static func comment(_ comment: String) -> HTML {
         return HTML(kind: .comment(comment))
     }
@@ -37,7 +37,7 @@ public struct HTML {
         self.kind = kind
     }
     
-    private enum Kind {
+    private enum Kind : Sendable {
         case comment(String)
         case text(String)
 		case simpleTag(name: String, text: String)
@@ -94,7 +94,7 @@ extension HTML : TextOutputStreamable {
 }
 
 extension HTML {
-    public struct Attributes : Equatable, ExpressibleByDictionaryLiteral, Sequence {
+    public struct Attributes : Equatable, ExpressibleByDictionaryLiteral, Sequence, Sendable {
         private var properties: [(String, String)]
         
         public init(dictionaryLiteral elements: (String, String)...) {
